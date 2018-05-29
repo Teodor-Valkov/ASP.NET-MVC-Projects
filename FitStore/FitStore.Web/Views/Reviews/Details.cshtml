@@ -1,0 +1,39 @@
+﻿@model ReviewDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Review Details";
+    string area = User.IsInRole(WebConstants.ModeratorRole)
+        ? "Moderator"
+        : string.Empty;
+}
+
+<div class="row">
+    <div class="text-center">
+        <br />
+        <h2>@Model.SupplementName</h2>
+        <h3>Manufacturer: <a asp-area="" asp-controller="Manufacturers" asp-action="Details" asp-route-id="@Model.ManufacturerId">@Model.ManufacturerName</a></h3>
+        <br />
+        <br />
+        <div>
+            <a asp-area="@area" asp-controller="Supplements" asp-action="Details" asp-route-id="@Model.SupplementId" asp-route-name="@Model.SupplementName" asp-route-returnUrl=@Context.Request.Path>
+                @if (Model.Picture == string.Empty)
+                {
+                    <img id="review-details-image" src="~/images/image-not-found.jpg" alt="supplement-picture">
+                }
+                else
+                {
+                    <img id="review-details-image" src="@Model.Picture" alt="supplement-picture">
+                }
+            </a>
+        </div>
+        <br />
+        <br />
+        <div>
+            <p>@Model.Content</p>
+            <p><em>Author: @Model.Author</em></p>
+        </div>
+        <div>
+            <a asp-area="@area" asp-controller="Reviews" asp-action="Index" class="btn btn-default btn-sm">Back</a>
+        </div>
+    </div>
+</div>

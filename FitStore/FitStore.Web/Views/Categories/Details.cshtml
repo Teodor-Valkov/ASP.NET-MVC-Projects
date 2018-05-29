@@ -1,0 +1,45 @@
+﻿@model PagingElementViewModel<CategoryDetailsServiceModel>
+
+@{
+    ViewData["Title"] = $"Category Details";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <br />
+
+        <div>
+            <h2>Category: @Model.Element.Name</h2>
+            <h4>Subcategories: @Model.Element.Subcategories.Count()</h4>
+            <h4>Supplements: @Model.Pagination.TotalElements</h4>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="text-center">
+            @foreach (var subcategory in Model.Element.Subcategories)
+            {
+                <a asp-area="" asp-controller="Subcategories" asp-action="Details" asp-route-id="@subcategory.Id" asp-route-name="@subcategory.Name" id="subcategory-links" class="btn btn-default">@subcategory.Name (@subcategory.Supplements)</a>
+            }
+        </div>
+        <br />
+        <br />
+
+        @foreach (var supplement in Model.Element.Supplements)
+        {
+            await Html.RenderPartialAsync("_SupplementDetails", supplement);
+        }
+    </div>
+</div>
+
+<div class="text-center">
+    @if (Model.Pagination.TotalPages > 1)
+    {
+        string actionLink = $"/categories/details/{Model.Element.Id}?name={Model.Element.Name}&";
+
+        Model.Pagination.ActionLink = actionLink;
+
+        @Html.Partial("_Pagination", Model.Pagination)
+    }
+</div>

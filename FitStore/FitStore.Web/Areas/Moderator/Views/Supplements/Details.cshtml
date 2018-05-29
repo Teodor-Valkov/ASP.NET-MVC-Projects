@@ -1,0 +1,122 @@
+﻿@model PagingElementViewModel<SupplementDetailsWithDeletedCommentsServiceModel>
+
+@{
+    ViewData["Title"] = "Supplement Details";
+}
+
+<div class="row">
+    <div class="text-center">
+        <br />
+        <h1>@Model.Element.Name</h1>
+        <h3>@Model.Element.CategoryName (@Model.Element.SubcategoryName)</h3>
+        <br />
+        <br />
+        <div>
+            @if (Model.Element.Picture == string.Empty)
+            {
+                <img class="text-center" id="supplement-details-image" src="~/images/image-not-found.jpg" alt="supplement-picture" />
+            }
+            else
+            {
+                <img class="text-center" id="supplement-details-image" src="@Model.Element.Picture" alt="supplement-picture" />
+            }
+        </div>
+        <br />
+        <br />
+        <div>
+            <p><strong>Description:</strong> @Model.Element.Description</p>
+        </div>
+        <div>
+            <p>
+                <strong>Quantity:</strong>
+                @if (Model.Element.Quantity > 0)
+                {
+                    <span class="text-success">In Stock</span>
+                }
+                else
+                {
+                    <span class="text-danger">Out of Stock</span>
+                }
+            </p>
+        </div>
+        <div>
+            <p><strong>Price:</strong> @Model.Element.Price &euro;</p>
+        </div>
+        <div>
+            <p><strong>Manufacturer:</strong> <a asp-area="" asp-controller="Manufacturers" asp-action="Details" asp-route-id="@Model.Element.ManufacturerId" asp-route-name="@Model.Element.ManufacturerName">@Model.Element.ManufacturerName</a></p>
+        </div>
+        <div>
+            <p><strong>Best Before:</strong> @Model.Element.BestBeforeDate.ToShortDateString()</p>
+        </div>
+        <div>
+            <a href="@ViewData["ReturnUrl"]" class="btn btn-default">Back</a>
+            @if (Model.Element.Quantity > 0)
+            {
+                <a class="btn btn-success" asp-area="" asp-controller="Orders" asp-action="Add" asp-route-id="@Model.Element.Id" asp-route-returnUrl="@Context.Request.Path">Buy</a>
+            }
+            else
+            {
+                <a class="btn btn-danger disabled">Buy</a>
+            }
+        </div>
+        <br />
+        <div>
+            <a asp-area="" asp-controller="Comments" asp-action="Create" asp-route-id="@Model.Element.Id" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-primary">Add Comment</a>
+            <a asp-area="" asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Element.Id" class="btn btn-primary">Add Review</a>
+        </div>
+        <br />
+        <br />
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var comment in Model.Element.Comments)
+    {
+        if (!comment.IsDeleted)
+        {
+            <div class="col-md-offset-2 col-md-8 well">
+                <p class="text-justify">@comment.Content</p>
+                <div class="text-right"><em>Author: @comment.Author</em></div>
+                <div class="text-right"><em>Publish Date: @comment.PublishDate.ToShortDateString()</em></div>
+                <br />
+                <div class="text-right">
+                    @if (User.Identity.Name == comment.Author || User.IsInRole(WebConstants.ModeratorRole))
+                    {
+                        <a asp-area="" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id" asp-route-supplementId="@Model.Element.Id" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-warning btn-sm">Edit</a>
+
+                        @Html.ActionLink("Delete", "Delete", "Comments", new { area = string.Empty, id = comment.Id, supplementId = Model.Element.Id, returnUrl = ViewData["ReturnUrl"] },
+                                                                                                            new
+                                                                                                            {
+                                                                                                                @class = "btn btn-danger btn-sm",
+                                                                                                                onclick = $"return confirm('Are you sure you want to delete this comment?');"
+
+                                                                                                            })
+                    }
+                </div>
+            </div>
+        }
+        else if (comment.IsDeleted && User.IsInRole(WebConstants.ModeratorRole))
+        {
+            <div class="col-md-offset-2 col-md-8 well">
+                <p class="text-justify">@comment.Content</p>
+                <div class="text-right"><em>Author: @comment.Author</em></div>
+                <div class="text-right"><em>Publish Date: @comment.PublishDate.ToShortDateString()</em></div>
+                <br />
+                <div class="text-right">
+                    <a asp-area="Moderator" asp-controller="Comments" asp-action="Restore" asp-route-id="@comment.Id" asp-route-supplementId="@Model.Element.Id" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="btn btn-success btn-sm">Restore</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="text-center">
+    @if (Model.Pagination.TotalPages > 1)
+    {
+        string actionLink = $"/moderator/supplements/details/{Model.Element.Id}?name={Model.Element.Name.ToLower()}&";
+
+        Model.Pagination.ActionLink = actionLink;
+
+        @Html.Partial("_Pagination", Model.Pagination)
+    }
+</div>

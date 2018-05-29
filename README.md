@@ -1,1 +1,4 @@
 # ASP.NET-MVC-Projects
+
+## Fit Store
+- My final individual practical project for this course. It is created with ASP.NET MVC Core and Entity Framework Core. The application represents an online web store in which the users can register and login in order to comment, review and buy products separated in different categories and subcategories. In the project are implemented different user roles and areas separated in private sections for admins, store managers, moderators and regular users. Depending on its role every user can access different sections of the application and has specific permissions of what can or cannot do.

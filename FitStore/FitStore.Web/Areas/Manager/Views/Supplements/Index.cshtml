@@ -1,0 +1,136 @@
+﻿@model PagingElementsViewModel<SupplementAdvancedServiceModel>
+@{
+    string isDeletedWhenSearching = "false";
+    string type = "Active";
+
+    if (Model.IsDeleted)
+    {
+        isDeletedWhenSearching = "true";
+        type = "Deleted";
+    }
+
+    ViewData["Title"] = $"All {type} Supplements";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(WebConstants.ManagerRole))
+{
+    <div>
+        <a asp-area="Manager" asp-controller="Supplements" asp-action="ChooseCategory" class="btn btn-success">Create Supplement</a>
+
+        <br />
+        <br />
+
+        @if (Model.IsDeleted)
+        {
+            <form>
+                <input type="hidden" name="isDeleted" value="false" />
+                <input class="btn btn-default" type="submit" value="Active Supplements" />
+            </form>
+        }
+        else
+        {
+            <form>
+                <input type="hidden" name="isDeleted" value="true" />
+                <input class="btn btn-default" type="submit" value="Deleted Supplements" />
+            </form>
+        }
+    </div>
+}
+
+@await Html.PartialAsync("_SearchForm", new SearchViewModel { SearchToken = Model.SearchToken, IsDeleted = isDeletedWhenSearching })
+
+<br />
+
+@if (!Model.Elements.Any())
+{
+    <h2>No Supplements Found.</h2>
+}
+else
+{
+    <table class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th class="text-center">Picture</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var supplement in Model.Elements)
+            {
+                <tr class="text-center">
+                    @if (User.IsInRole(WebConstants.ModeratorRole))
+                    {
+                        if (!supplement.IsDeleted)
+                        {
+                            <td>
+                                <a asp-area="Moderator" asp-controller="Supplements" asp-action="Details" asp-route-id="@supplement.Id" asp-route-name="@supplement.Name" asp-route-returnUrl=@Context.Request.Path>
+                                    <img id="supplements-index-image" src="@supplement.Picture" alt="supplement-picture">
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <img id="supplements-index-image" src="@supplement.Picture" alt="supplement-picture">
+                            </td>
+                        }
+                    }
+                    else
+                    {
+                        if (!supplement.IsDeleted)
+                        {
+                            <td>
+                                <a asp-area="" asp-controller="Supplements" asp-action="Details" asp-route-id="@supplement.Id" asp-route-name="@supplement.Name" asp-route-returnUrl=@Context.Request.Path>
+                                    <img id="supplements-index-image" src="@supplement.Picture" alt="supplement-picture">
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <img id="supplements-index-image" src="@supplement.Picture" alt="supplement-picture">
+                            </td>
+                        }
+                    }
+
+                    <td>@supplement.Name</td>
+                    <td>@supplement.Quantity</td>
+                    <td>@supplement.Price</td>
+                    <td>
+                        @if (Model.IsDeleted)
+                        {
+                            <a asp-area="Manager" asp-controller="Supplements" asp-action="Restore" asp-route-id="@supplement.Id" class="btn btn-success">Restore</a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Supplements" asp-action="Details" asp-route-id="@supplement.Id" asp-route-name="@supplement.Name" class="btn btn-primary" asp-route-returnUrl=@Context.Request.Path>Details</a>
+                            <a asp-area="Manager" asp-controller="Supplements" asp-action="Edit" asp-route-id="@supplement.Id" class="btn btn-warning">Edit</a>
+                            @Html.ActionLink("Delete", "Delete", "Supplements", new { area = "Manager", id = supplement.Id },
+                                                                                                                                                                                                                                                                                                                  new
+                                                                                                                                                                                                                                                                                                                  {
+                                                                                                                                                                                                                                                                                                                      @class = "btn btn-danger",
+                                                                                                                                                                                                                                                                                                                      onclick = $"return confirm('Are you sure you want to delete this supplement?');"
+                                                                                                                                                                                                                                                                                                                  })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    if (Model.Pagination.TotalPages > 1)
+    {
+        string actionLink = string.IsNullOrWhiteSpace(Model.SearchToken)
+            ? $"/manager/supplements?IsDeleted={Model.IsDeleted}&"
+            : $"/manager/supplements?SearchToken={Model.SearchToken}&IsDeleted={Model.IsDeleted}&";
+
+        Model.Pagination.ActionLink = actionLink;
+
+        @Html.Partial("_Pagination", Model.Pagination)
+    }
+}

@@ -1,0 +1,36 @@
+﻿@model PagingElementViewModel<ManufacturerDetailsServiceModel>
+
+@{
+    ViewData["Title"] = $"Manufacturer Details";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <br />
+
+        <div>
+            <h2>Manufacturer: @Model.Element.Name</h2>
+            <h4>Address: @Model.Element.Address</h4>
+            <h4>Supplements: @Model.Pagination.TotalElements</h4>
+        </div>
+
+        <br />
+        <br />
+
+        @foreach (var supplement in Model.Element.Supplements)
+        {
+            await Html.RenderPartialAsync("_SupplementDetails", supplement);
+        }
+    </div>
+</div>
+
+<div class="text-center">
+    @if (Model.Pagination.TotalPages > 1)
+    {
+        string actionLink = $"/manufacturers/details/{Model.Element.Id}?name={Model.Element.Name}&";
+
+        Model.Pagination.ActionLink = actionLink;
+
+        @Html.Partial("_Pagination", Model.Pagination)
+    }
+</div>
