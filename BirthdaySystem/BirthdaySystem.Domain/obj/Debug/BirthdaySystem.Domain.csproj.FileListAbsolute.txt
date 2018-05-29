@@ -1,0 +1,22 @@
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Domain.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Domain.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Common.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Models.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Common.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Models.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csprojAssemblyReference.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csproj.CoreCompileInputs.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csproj.CopyComplete
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Domain.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Domain.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Common.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Models.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Common.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\bin\Debug\BirthdaySystem.Models.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csprojAssemblyReference.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csproj.CoreCompileInputs.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.csproj.CopyComplete
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\ASP.NET MVC 5\BirthdaySystem\BirthdaySystem.Domain\obj\Debug\BirthdaySystem.Domain.pdb

@@ -1,0 +1,54 @@
+﻿@model VotingViewModel
+
+@{
+    bool isAlreadyVoted = false;
+}
+
+<tr>
+    <td>@Model.CreatorName</td>
+    <td>@Model.ReceiverName</td>
+    <td>@Model.ClosingDate.ToString("dd-MM-yyyy")</td>
+    <td>
+        @foreach (var present in Model.Presents)
+        {
+            <div>
+                <em>--> @present.Name (@present.GiverNames.Count)</em>
+            </div>
+
+            <div>
+                @Html.Raw(string.Join("<br />", present.GiverNames))
+            </div>
+
+            if (present.GiverNames.Any(n => n.Contains(this.User.Identity.Name)))
+            {
+                isAlreadyVoted = true;
+            }
+        }
+    </td>
+    <td>
+        <div>
+            @if (!Model.IsClosed)
+            {
+                <div>
+                    @if (isAlreadyVoted)
+                    {
+                        @Html.ActionLink("Voted", "Vote", "Votings", new { id = Model.Id }, new { @class = "btn btn-outline-success disabled" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Vote", "Vote", "Votings", new { id = Model.Id }, new { @class = "btn btn-outline-success" })
+                    }
+
+                    @if (Model.CreatorName.Contains(this.User.Identity.Name))
+                    {
+                        @Html.ActionLink("Close", "Close", "Votings", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })
+                    }
+                </div>
+            }
+            else
+            {
+                <i class="fa fa-gift fa-5x" aria-hidden="true"></i>
+            }
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,11 @@
+﻿@if (this.User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            @Html.ActionLink("History", "Closed", "Votings", null, new { @class = "nav-link" })
+        </li>
+        <li class="nav-item">
+            @Html.ActionLink("Make Voting", "MakeVoting", "Votings", null, new { @class = "nav-link" })
+        </li>
+    </ul>
+}
