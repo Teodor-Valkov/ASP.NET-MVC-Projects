@@ -1,0 +1,36 @@
+﻿@model ICollection<PaymentViewModel>
+
+<h2 class="text-center">Плащания</h2>
+
+<div class="row">
+    <div class="col-12">
+        <h4>Sort by</h4>
+        <div class="row">
+            <div class="col-12" style="margin-bottom: 20px;">
+                @Html.ActionLink("Date", "Index", "Payments", new { order = "Date" }, new { @class = "btn btn-sm btn-dark" })
+                @Html.ActionLink("Status", "Index", "Payments", new { order = "Status" }, new { @class = "btn btn-sm btn-dark" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Account IBAN</th>
+                    <th>Account Amount</th>
+                    <th>Payment IBAN</th>
+                    <th>Payment Amount</th>
+                    <th>Payment Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.DisplayForModel()
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@model PaymentViewModel
+<tr>
+    <td>@Model.AccountIBAN</td>
+    <td>@Model.AccountAmount</td>
+    <td>@Model.PaymentIBAN</td>
+    <td>@Model.PaymentAmount</td>
+    <td>@Model.PaymentReason</td>
+    <td>@Model.Status</td>
+    <td>
+        @if (Model.Status == DataConstants.PaymentWaiting)
+        {
+            @Html.ActionLink("Потвърди", "ProcessPayment", "Payments", new { id = Model.Id }, new { @class = "btn btn-outline-success" })
+            @Html.ActionLink("Откажи", "CancelPayment", "Payments", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })
+        }
+    </td>
+</tr>
