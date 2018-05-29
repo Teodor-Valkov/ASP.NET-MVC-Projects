@@ -1,0 +1,21 @@
+﻿@using PizzaLab.Web.Helpers;
+@model RegisterUserBindingModel
+
+<h2>Register</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.FormGroupFor(model => model.Username)
+    @Html.FormGroupForPassword(model => model.Password)
+    @Html.FormGroupForPassword(model => model.ConfirmPassword)
+    @Html.FormGroupFor(model => model.Address)
+    @Html.FormGroupFor(model => model.Phone)
+    <div class="form-group row">
+        <div class="col-sm-10 offset-2">
+            <input type="submit" value="Register" class="btn btn-primary" />
+            @Html.ActionLink("Log in instead", "Login", "Users", null, new { @class = "btn btn-outline-success" })
+        </div>
+    </div>
+}

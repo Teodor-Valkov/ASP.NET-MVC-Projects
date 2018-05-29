@@ -1,0 +1,21 @@
+﻿@model MostWantedPizzaViewModel
+<br />
+
+<div class="col-sm-6 offset-3" style="padding-bottom: 20px">
+    <h2 class="text-center">Our most wanted pizza</h2>
+    <h5 class="text-center">Ordered @Model.Sales times!</h5>
+
+    <br />
+
+    <div class="card" style="height: 100%">
+        <img class="card-img-top" src="@Model.PictureUrl" alt="@(Model.Name + " image")">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-center"><strong>Name: </strong>@Model.Name</h5>
+            <p class="card-text text-center"><strong>Description: </strong>@Model.Description</p>
+            <p class="card-text text-center">
+                @Html.ActionLink("Details", "Details", "Menu", new { id = Model.Id }, new { @class = "btn btn-lg btn-primary" })
+                @Html.ActionLink("Order", "OrderPizza", "Orders", new { id = Model.Id }, new { @class = "btn btn-success btn-lg" })
+            </p>
+        </div>
+    </div>
+</div>

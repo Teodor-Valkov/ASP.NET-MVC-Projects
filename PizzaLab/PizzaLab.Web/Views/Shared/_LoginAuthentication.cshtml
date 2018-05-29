@@ -1,0 +1,26 @@
+﻿<ul class="navbar-nav ml-auto">
+    @{
+        var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+        var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+    }
+
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item navbar-text">Hello, @this.User.Identity.Name!</li>
+        <li class="nav-item">
+            @Html.ActionLink("My Cart", "Checkout", new { controller = "Orders" }, new { @class = "nav-link" + (controllerName == "Orders" && actionName == "Checkout" ? " active" : "") })
+        </li>
+        <li class="nav-item">
+            @Html.ActionLink("Log out", "Logout", new { controller = "Users" }, new { @class = "nav-link" })
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            @Html.ActionLink("Register", "Register", new { controller = "Users" }, new { @class = "nav-link" + (controllerName == "Users" && actionName == "Register" ? " active" : "") })
+        </li>
+        <li class="nav-item">
+            @Html.ActionLink("Log in", "Login", new { controller = "Users" }, new { @class = "nav-link" + (controllerName == "Users" && actionName == "Login" ? " active" : "") })
+        </li>
+    }
+</ul>

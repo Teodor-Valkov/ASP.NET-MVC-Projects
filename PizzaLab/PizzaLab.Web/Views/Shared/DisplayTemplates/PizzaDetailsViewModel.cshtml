@@ -1,0 +1,28 @@
+﻿@model PizzaDetailsViewModel
+<br />
+
+<div>
+    <h1 class="text-center">Details</h1>
+</div>
+
+<br />
+
+<div class="col-sm-6 offset-3" style="padding-bottom: 20px">
+    <div class="card" style="height: 100%">
+        <img class="card-img-top" src="@Model.PictureUrl" alt="@(Model.Name + " image")">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-center"><strong>Name: </strong>@Model.Name</h5>
+            <p class="card-text text-center"><strong>Description: </strong>@Model.Description</p>
+            <p class="card-text text-center">
+                <strong>Ingredients:</strong>
+                @string.Join(", ", Model.Ingredients
+                                       .Select(ingredient => ingredient.Name.ToLower())
+                                       .OrderBy(name => name))
+            </p>
+            <p class="card-text text-center">
+                @Html.ActionLink("Menu", "Index", "Menu", new { @class = "btn btn-lg btn-primary" })
+                @Html.ActionLink("Order", "OrderPizza", "Orders", new { id = Model.Id }, new { @class = "btn btn-lg btn-success" })
+            </p>
+        </div>
+    </div>
+</div>

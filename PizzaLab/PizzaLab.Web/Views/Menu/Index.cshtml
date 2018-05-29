@@ -1,0 +1,32 @@
+﻿@model ICollection<PizzaDetailsViewModel>
+
+<br />
+
+<h2 class="text-center">Menu</h2>
+
+<br />
+
+<div class="row">
+    @foreach (var pizza in Model)
+    {
+        <div class="col-sm-4" style="padding-bottom: 20px">
+            <div class="card" style="height: 100%">
+                <img class="card-img-top" src="@pizza.PictureUrl" alt="@(pizza.Name + " image")">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-center"><strong>Name: </strong>@pizza.Name</h5>
+                    <p class="card-text text-center"><strong>Description: </strong>@pizza.Description</p>
+                    <p class="card-text text-center">
+                        <strong>Ingredients:</strong>
+                        @string.Join(", ", pizza.Ingredients
+                            .Select(ingredient => ingredient.Name.ToLower())
+                            .OrderBy(name => name))
+                    </p>
+                    <p class="card-text text-center">
+                        @Html.ActionLink("Details", "Details", "Menu", new { id = pizza.Id }, new { @class = "btn btn-primary btn-lg" })
+                        @Html.ActionLink("Order", "OrderPizza", "Orders", new { id = pizza.Id }, new { @class = "btn btn-success btn-lg" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
