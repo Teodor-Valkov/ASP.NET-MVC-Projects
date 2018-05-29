@@ -1,0 +1,7 @@
+﻿@model MealDetailsViewModel
+<tr>
+    <td>@Model.OrderDate.ToString("dd.MM.yyyy")</td>
+    <td>@Model.MealName</td>
+    <td>@Model.MealsCount</td>
+    <td>@Html.Raw(string.Join("<br />", Model.ClientNames))</td>
+</tr>

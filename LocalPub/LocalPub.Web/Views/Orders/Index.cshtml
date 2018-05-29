@@ -1,0 +1,24 @@
+﻿@model ICollection<OrderViewModel>
+
+<h2 class="text-center">My Orders</h2>
+
+<p class="text-center">
+    @Html.ActionLink("New order", "MakeOrder", "Orders", null, new { @class = "btn btn-lg btn-outline-success" })
+</p>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Order date</th>
+                    <th>Meals</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.DisplayForModel()
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model OrderBindingModel
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.OrderDate, "Order date", new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @* Simple way of setting date time input field
+            -> if we use TextBoxFor we need to specify that the type = "date"
+            -> if we use EditorFor we need to specify the DataType[DataType.Date] attribute property in OrderBindingModel
+        *@
+
+        @*@Html.TextBoxFor(model => model.OrderDate, new { @class = "form-control", type = "date" })*@
+        @*@Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })*@
+
+        @* Complex way of setting date time input field
+            -> if we use bootstrap datepicker extension
+            --> we need to use TextBorFor with a datepicker class
+            --> we need to have a section scripts (in MakeOrder.cshtml) with included bootstrap-datepicker.js and init-datepicker.js files
+        *@
+
+        @Html.TextBoxFor(model => model.OrderDate, new { @class = "form-control datepicker" })
+        @Html.ValidationMessageFor(model => model.OrderDate, null, new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.AppetizerId, "Appetizer", new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(model => model.AppetizerId, ViewBag.AppetizersList as SelectList, "-- none --", new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.MainCourseId, "Main course", new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(model => model.MainCourseId, ViewBag.MainCoursesList as SelectList, "-- none --", new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.DessertId, "Dessert", new { @class = "col-sm-2 col-form-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(model => model.DessertId, ViewBag.DessertsList as SelectList, "-- none --", new { @class = "form-control" })
+    </div>
+</div>

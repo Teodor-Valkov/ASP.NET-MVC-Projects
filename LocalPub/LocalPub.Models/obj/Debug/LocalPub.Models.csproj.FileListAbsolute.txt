@@ -1,0 +1,9 @@
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\obj\Debug\LocalPub.Models.csprojAssemblyReference.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\obj\Debug\LocalPub.Models.csproj.CoreCompileInputs.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\bin\Debug\LocalPub.Models.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\bin\Debug\LocalPub.Models.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\bin\Debug\LocalPub.Common.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\bin\Debug\LocalPub.Common.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\obj\Debug\LocalPub.Models.csproj.CopyComplete
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\obj\Debug\LocalPub.Models.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Models\obj\Debug\LocalPub.Models.pdb

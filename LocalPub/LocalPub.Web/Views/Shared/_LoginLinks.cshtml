@@ -1,0 +1,12 @@
+﻿@if (this.User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">@Html.ActionLink("My orders", "Index", "Orders", null, new { @class = "nav-link" })</li>
+        <li class="nav-item">@Html.ActionLink("Most Ordered Meals", "MostOrderedMeals", "Menu", null, new { @class = "nav-link" })</li>
+        @if (this.User.IsInRole("Връзкар"))
+        {
+            <li class="nav-item">@Html.ActionLink("Meals by date", "MealsByDate", "Menu", null, new { @class = "nav-link" })</li>
+        }
+        <li class="nav-item">@Html.ActionLink("New order", "MakeOrder", "Orders", null, new { @class = "nav-link" })</li>
+    </ul>
+}

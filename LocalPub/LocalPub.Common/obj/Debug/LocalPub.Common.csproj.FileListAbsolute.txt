@@ -1,0 +1,6 @@
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\bin\Debug\LocalPub.Common.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\bin\Debug\LocalPub.Common.pdb
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\obj\Debug\LocalPub.Common.csprojAssemblyReference.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\obj\Debug\LocalPub.Common.csproj.CoreCompileInputs.cache
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\obj\Debug\LocalPub.Common.dll
+C:\Users\valko\Documents\Visual Studio 2017\Projects\LocalPub\LocalPub.Common\obj\Debug\LocalPub.Common.pdb

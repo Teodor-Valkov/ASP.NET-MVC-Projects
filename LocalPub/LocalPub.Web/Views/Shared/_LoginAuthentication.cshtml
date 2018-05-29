@@ -1,0 +1,18 @@
+﻿<ul class="navbar-nav ml-auto">
+    <li class="nav-item navbar-text">
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <span>Hello, @this.User.Identity.Name!</span>
+        }
+    </li>
+    <li class="nav-item">
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink("Log out", "Logout", "Clients", null, new { @class = "nav-link" })
+        }
+        else
+        {
+            @Html.ActionLink("Log in", "Login", "Clients", null, new { @class = "nav-link" })
+        }
+    </li>
+</ul>
