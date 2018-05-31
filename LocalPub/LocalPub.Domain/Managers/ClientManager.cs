@@ -3,6 +3,7 @@ using LocalPub.Domain.SqlServer;
 using LocalPub.Models;
 using LocalPub.Models.BindingModels;
 using LocalPub.Common;
+using System.Collections.Generic;
 
 namespace LocalPub.Domain.Managers
 {
@@ -20,6 +21,35 @@ namespace LocalPub.Domain.Managers
             this.clientRepository = clientRepository;
         }
 
+        public ICollection<ClientTypeDescription> GetAllClientTypes()
+        {
+            using (this.clientRepository)
+            {
+                ICollection<ClientTypeDescription> clientTypes = this.clientRepository.GetAllClientTypes();
+                return clientTypes;
+            }
+        }
+
+        public bool CreateClient(ClientCreateModel client)
+        {
+            using (this.clientRepository)
+            {
+                bool isClientWithSameUsernameExisting = this.clientRepository.IsClientWithSameUsernameExisting(client.Username);
+                if (isClientWithSameUsernameExisting)
+                {
+                    return false;
+                }
+
+                string passwordSalt = PasswordUtilities.GeneratePasswordSalt();
+                string passwordHash = PasswordUtilities.GeneratePasswordHash(client.Password, passwordSalt);
+                client.PasswordHash = passwordHash;
+                client.PasswordSalt = passwordSalt;
+
+                bool createClientResult = this.clientRepository.CreateClient(client);
+                return createClientResult;
+            }
+        }
+
         public ClientModel GetClient(ClientLoginBindingModel clientModel)
         {
             ClientWithPasswordModel clientWithPassword = this.clientRepository.GetClientByUsername(clientModel.Username);
@@ -29,7 +59,6 @@ namespace LocalPub.Domain.Managers
             }
 
             string actualPasswordHash = PasswordUtilities.GeneratePasswordHash(clientModel.Password, clientWithPassword.PasswordSalt);
-
             if (actualPasswordHash != clientWithPassword.PasswordHash)
             {
                 return null;

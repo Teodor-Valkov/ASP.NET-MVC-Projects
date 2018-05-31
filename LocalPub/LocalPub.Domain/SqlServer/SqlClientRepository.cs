@@ -16,6 +16,60 @@ namespace LocalPub.Domain.SqlServer
         {
         }
 
+        public ICollection<ClientTypeDescription> GetAllClientTypes()
+        {
+            SqlDataReader reader = this.ExecuteReader(
+                 @"SELECT Id, Name
+                     FROM ClientTypes");
+
+            ICollection<ClientTypeDescription> clientTypes = new List<ClientTypeDescription>();
+
+            using (reader)
+            {
+                while (reader.Read())
+                {
+                    int clientTypeId = reader.GetInt32(0);
+                    string clientTypeName = reader.GetString(1);
+                    ClientTypeDescription clientType = new ClientTypeDescription(clientTypeId, clientTypeName);
+
+                    clientTypes.Add(clientType);
+                }
+            }
+
+            return clientTypes;
+        }
+
+        public bool IsClientWithSameUsernameExisting(string username)
+        {
+            int clientsCount = (int)this.ExecuteScalar(
+                  @"SELECT COUNT(*)
+                      FROM Clients
+                     WHERE Username = @username",
+                       new Dictionary<string, object>()
+                       {
+                            { "@username", username }
+                       });
+
+            return clientsCount > 0;
+        }
+
+        public bool CreateClient(ClientCreateModel user)
+        {
+            int recordsInserted = this.ExecuteNonQuery(
+                  @"INSERT INTO Clients (Username, Name, PasswordHash, PasswordSalt, ClientTypeId)
+                         VALUES (@username, @name, @passwordHash, @passwordSalt, @clientTypeId)",
+                            new Dictionary<string, object>()
+                            {
+                                    { "@username", user.Username },
+                                    { "@name", user.Name },
+                                    { "@passwordHash", user.PasswordHash },
+                                    { "@passwordSalt", user.PasswordSalt },
+                                    { "@clientTypeId", user.ClientTypeId }
+                            });
+
+            return recordsInserted > 0;
+        }
+
         public ClientWithPasswordModel GetClientByUsername(string username)
         {
             SqlDataReader reader = this.ExecuteReader(

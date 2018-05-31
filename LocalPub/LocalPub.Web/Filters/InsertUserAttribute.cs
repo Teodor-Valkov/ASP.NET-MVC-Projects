@@ -10,7 +10,6 @@ namespace LocalPub.Web.Filters
         public void OnAuthentication(AuthenticationContext filterContext)
         {
             ClientModel client = filterContext.HttpContext.Session[SessionUserKey] as ClientModel;
-
             if (client != null)
             {
                 filterContext.Principal = client;

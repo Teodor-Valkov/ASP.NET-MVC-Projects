@@ -13,7 +13,7 @@
         public const string LogoutSuccessful = "Logout successful.";
 
         public const string CancelSuccessful = "You have successfully cancelled your order.";
-        public const string CancelError = "Something happened, please try again.";
+        public const string CancelError = "You cannot cancel the specified order.";
         public const string OrderSuccessful = "Thank you for your order.";
         public const string OrderError = "You have to choose at least one meal.";
     }

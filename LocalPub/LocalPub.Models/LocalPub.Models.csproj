@@ -47,7 +47,9 @@
   <ItemGroup>
     <Compile Include="BindingModels\OrderBindingModel.cs" />
     <Compile Include="BindingModels\PrivilegedUserOrderBindingModel.cs" />
+    <Compile Include="ClientCreateModel.cs" />
     <Compile Include="ClientModel.cs" />
+    <Compile Include="ClientTypeDescription.cs" />
     <Compile Include="ClientWithPasswordModel.cs" />
     <Compile Include="BindingModels\ClientLoginBindingModel.cs" />
     <Compile Include="MealDescription.cs" />

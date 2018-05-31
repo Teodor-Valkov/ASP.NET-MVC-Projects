@@ -13,6 +13,8 @@ namespace LocalPub.Domain.Interfaces
 
         bool IsClientAlreadyMadeOrder(int clientId, DateTime date);
 
+        bool IsOrderDateInThePast(int orderId, DateTime today);
+
         bool CancelOrder(int orderId);
 
         bool SaveOrder(OrderBindingModel order);

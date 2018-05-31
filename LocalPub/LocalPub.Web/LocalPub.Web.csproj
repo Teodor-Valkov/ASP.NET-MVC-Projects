@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelBinders\DateModelBinder.cs" />
+    <Compile Include="Models\Clients\ClientRegisterBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -347,10 +348,10 @@
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\Shared\_LoginAuthentication.cshtml" />
     <Content Include="Views\Shared\_LoginLinks.cshtml" />
+    <Content Include="Views\Clients\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

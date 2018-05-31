@@ -92,6 +92,30 @@ namespace LocalPub.Domain.SqlServer
             return ordersCount > 0;
         }
 
+        public bool IsOrderDateInThePast(int orderId, DateTime today)
+        {
+            SqlDataReader reader = this.ExecuteReader(
+               @"SELECT OrderDate
+                       FROM Orders
+                      WHERE Id = @orderId
+                        AND CONVERT(DATE, OrderDate) >= CONVERT(DATE, @today)",
+                    new Dictionary<string, object>()
+                    {
+                            { "@orderId", orderId },
+                            { "@today", today }
+                    });
+
+            using (reader)
+            {
+                if (reader.Read())
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         public bool CancelOrder(int orderId)
         {
             int recordsUpdated = this.ExecuteNonQuery(

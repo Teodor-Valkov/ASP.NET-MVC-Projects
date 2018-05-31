@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LocalPub.Models;
 using LocalPub.Models.BindingModels;
 using LocalPub.Models.ViewModels;
@@ -13,6 +14,6 @@ namespace LocalPub.Domain.Interfaces
 
         bool SaveOrder(OrderBindingModel order);
 
-        bool CancelOrder(int orderId, int clientId);
+        bool CancelOrder(int orderId, int clientId, DateTime today);
     }
 }

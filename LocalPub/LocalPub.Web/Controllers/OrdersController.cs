@@ -5,6 +5,7 @@ using LocalPub.Models.BindingModels;
 using LocalPub.Models.ViewModels;
 using LocalPub.Web.Filters;
 using LocalPub.Web.ModelBinders;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using static LocalPub.Common.WebConstants;
@@ -74,7 +75,7 @@ namespace LocalPub.Web.Controllers
         {
             int userId = this.User.GetUserId();
 
-            bool cancelResult = this.orderManager.CancelOrder(id, userId);
+            bool cancelResult = this.orderManager.CancelOrder(id, userId, DateTime.Now);
             if (!cancelResult)
             {
                 this.TempData.Add(TempDataErrorMessageKey, CancelError);

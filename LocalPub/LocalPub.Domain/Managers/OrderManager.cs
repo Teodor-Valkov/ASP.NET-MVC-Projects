@@ -3,6 +3,7 @@ using LocalPub.Domain.SqlServer;
 using LocalPub.Models;
 using LocalPub.Models.BindingModels;
 using LocalPub.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 
 namespace LocalPub.Domain.Managers
@@ -39,12 +40,18 @@ namespace LocalPub.Domain.Managers
             }
         }
 
-        public bool CancelOrder(int orderId, int clientId)
+        public bool CancelOrder(int orderId, int clientId, DateTime today)
         {
             using (this.ordersRepository)
             {
                 bool isCurrentClientSameAsOrderClient = this.ordersRepository.IsCurrentClientSameAsOrderClient(orderId, clientId);
                 if (!isCurrentClientSameAsOrderClient)
+                {
+                    return false;
+                }
+
+                bool isOrderDateInThePast = this.ordersRepository.IsOrderDateInThePast(orderId, today);
+                if (isOrderDateInThePast)
                 {
                     return false;
                 }
