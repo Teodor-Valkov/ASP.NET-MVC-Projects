@@ -49,18 +49,16 @@ namespace BirthdaySystem.Domain.SqlServer
                       {
                           { "@presentId", presentId }
                       });
-                
-            int? existingPresentId = null;
 
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    existingPresentId = reader.GetInt32(0);
+                    return true;
                 }
-            }
 
-            return existingPresentId.HasValue;
+                return false;
+            }
         }
     }
 }

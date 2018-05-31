@@ -27,7 +27,6 @@ namespace BirthdaySystem.Web.Controllers
             this.votingManager = votingManager;
         }
 
-        [HttpGet]
         public ActionResult Index()
         {
             string username = this.User.Identity.Name;
@@ -36,7 +35,6 @@ namespace BirthdaySystem.Web.Controllers
             return this.View(votings);
         }
 
-        [HttpGet]
         public ActionResult Closed()
         {
             string username = this.User.Identity.Name;
@@ -45,7 +43,6 @@ namespace BirthdaySystem.Web.Controllers
             return this.View(votings);
         }
 
-        [HttpGet]
         public ActionResult MakeVoting()
         {
             string username = this.User.Identity.Name;
@@ -76,7 +73,6 @@ namespace BirthdaySystem.Web.Controllers
             return this.RedirectToAction(nameof(VotingsController.Index));
         }
 
-        [HttpGet]
         public ActionResult Vote(int id)
         {
             int userId = this.User.GetUserId();
@@ -116,7 +112,7 @@ namespace BirthdaySystem.Web.Controllers
             return RedirectToAction(nameof(VotingsController.Index));
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Close(int id)
         {
             int userId = this.User.GetUserId();

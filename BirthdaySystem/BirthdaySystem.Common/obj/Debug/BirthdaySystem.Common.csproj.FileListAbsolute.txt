@@ -1,6 +1,0 @@
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\bin\Debug\BirthdaySystem.Common.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\bin\Debug\BirthdaySystem.Common.pdb
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\obj\Debug\BirthdaySystem.Common.csprojAssemblyReference.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\obj\Debug\BirthdaySystem.Common.csproj.CoreCompileInputs.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\obj\Debug\BirthdaySystem.Common.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\BirthdaySystem\BirthdaySystem.Common\obj\Debug\BirthdaySystem.Common.pdb

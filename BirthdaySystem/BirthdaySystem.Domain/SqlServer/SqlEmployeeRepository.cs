@@ -62,8 +62,6 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@username", username }
                       });
 
-            EmployeeWithPasswordModel employeeWithPassword = null;
-
             using (reader)
             {
                 while (reader.Read())
@@ -73,11 +71,12 @@ namespace BirthdaySystem.Domain.SqlServer
                     string passwordHash = reader.GetString(2);
                     string passwordSalt = reader.GetString(3);
 
-                    employeeWithPassword = new EmployeeWithPasswordModel(id, usernameFromDatabase, passwordHash, passwordSalt);
+                    EmployeeWithPasswordModel employeeWithPassword = new EmployeeWithPasswordModel(id, usernameFromDatabase, passwordHash, passwordSalt);
+                    return employeeWithPassword;
                 }
             }
 
-            return employeeWithPassword;
+            return null;
         }
 
         public ICollection<EmployeeDescription> GetAllEmployeesExceptForCurrentUser(string username)
@@ -123,17 +122,17 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@employeeId", employeeId }
                     });
 
-            DateTime? birthDate = null;
-
             using (reader)
             {
-                while (reader.Read())
+                DateTime birthDate = default(DateTime);
+
+                if (reader.Read())
                 {
                     birthDate = reader.GetDateTime(0);
                 }
-            }
 
-            return birthDate.Value;
+                return birthDate;
+            }
         }
 
         public bool IsEmployeeExisting(int employeeId)
@@ -147,17 +146,15 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@employeeId", employeeId }
                       });
 
-            int? existingEmployeeId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    existingEmployeeId = reader.GetInt32(0);
+                    return true;
                 }
-            }
 
-            return existingEmployeeId.HasValue;
+                return false;
+            }
         }
 
         private string CombineUsernameAndName(string username, string name)

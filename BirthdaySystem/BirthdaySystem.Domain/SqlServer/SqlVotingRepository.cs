@@ -51,7 +51,7 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@isClosed", isClosed }
                       });
 
-            IDictionary<int, VotingViewModel> votings = new Dictionary<int, VotingViewModel>();
+            ICollection<VotingViewModel> votings = new List<VotingViewModel>();
 
             using (reader)
             {
@@ -73,33 +73,33 @@ namespace BirthdaySystem.Domain.SqlServer
 
                     VotingViewModel voting = null;
 
-                    if (!votings.ContainsKey(id))
+                    if (votings.Any(v => v.Id == id))
                     {
-                        voting = new VotingViewModel(id, closingDate, creatorNameRepresentation, receiverNameRepresentation, isClosed);
-                        votings[id] = voting;
+                        voting = votings.First(v => v.Id == id);
                     }
                     else
                     {
-                        voting = votings[id];
+                        voting = new VotingViewModel(id, closingDate, creatorNameRepresentation, receiverNameRepresentation, isClosed);
+                        votings.Add(voting);
                     }
 
                     PresentWithGiversDescription present = null;
 
-                    if (!voting.Presents.Any(p => p.Name == presentName))
+                    if (voting.Presents.Any(p => p.Name == presentName))
                     {
-                        present = new PresentWithGiversDescription(presentName);
-                        votings[id].Presents.Add(present);
+                        present = voting.Presents.First(p => p.Name == presentName);
                     }
                     else
                     {
-                        present = voting.Presents.First(p => p.Name == presentName);
+                        present = new PresentWithGiversDescription(presentName);
+                        voting.Presents.Add(present);
                     }
 
                     present.GiverNames.Add(giverNameRepresentation);
                 }
             }
 
-            return votings.Values;
+            return votings;
         }
 
         public bool IsVotingAlreadyExistingForThisYear(int receiverId, int closingYear)
@@ -155,17 +155,15 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@votingId", votingId }
                       });
 
-            int? existingVotingId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    existingVotingId = reader.GetInt32(0);
+                    return true;
                 }
-            }
 
-            return existingVotingId.HasValue;
+                return false;
+            }
         }
 
         public bool IsEmployeeReceiverInVoting(int votingId, int employeeId)
@@ -179,17 +177,16 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@votingId", votingId }
                       });
 
-            int? receiverId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    receiverId = reader.GetInt32(0);
+                    int receiverId = reader.GetInt32(0);
+                    return receiverId == employeeId;
                 }
-            }
 
-            return receiverId.Value == employeeId;
+                return false;
+            }
         }
 
         public bool IsEmployeeAlreadyVotedInVoting(int votingId, int employeeId)
@@ -236,17 +233,16 @@ namespace BirthdaySystem.Domain.SqlServer
                          { "@votingId", votingId }
                     });
 
-            int? creatorId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    creatorId = reader.GetInt32(0);
+                    int creatorId = reader.GetInt32(0);
+                    return creatorId == employeeId;
                 }
-            }
 
-            return creatorId.Value == employeeId;
+                return false;
+            }
         }
 
         public bool DoesVotingHaveMoreThanOneVote(int votingId)
@@ -262,17 +258,16 @@ namespace BirthdaySystem.Domain.SqlServer
                           { "@votingId", votingId },
                       });
 
-            int? votesCount = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    votesCount = reader.GetInt32(0);
+                    int votesCount = reader.GetInt32(0);
+                    return votesCount > 1;
                 }
-            }
 
-            return votesCount.Value > 1;
+                return false;
+            }
         }
 
         public int GetMostVotedPresentId(int votingId)
@@ -292,17 +287,16 @@ namespace BirthdaySystem.Domain.SqlServer
                            { "@votingId", votingId },
                      });
 
-            int? presentId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    presentId = reader.GetInt32(0);
+                    int presentId = reader.GetInt32(0);
+                    return presentId;
                 }
-            }
 
-            return presentId.Value;
+                return 0;
+            }
         }
 
         public bool CloseVoting(int votingId, int presentId, DateTime closingDate)
