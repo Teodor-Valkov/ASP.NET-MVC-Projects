@@ -5,6 +5,8 @@ namespace PaymentSystem.Domain.Interfaces
 {
     public interface IUserManager
     {
+        bool CreateUser(UserRegisterBindingModel userModel);
+
         UserModel GetUser(UserLoginBindingModel userModel);
     }
 }

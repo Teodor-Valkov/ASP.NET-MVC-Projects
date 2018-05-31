@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingModels\Users\UserRegisterBindingModel.cs" />
     <Compile Include="BindingModels\Users\UserLoginBindingModel.cs" />
     <Compile Include="Models\Payments\MakePaymentModel.cs" />
+    <Compile Include="Models\Users\UserCreateModel.cs" />
     <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="Models\Users\UserWithPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

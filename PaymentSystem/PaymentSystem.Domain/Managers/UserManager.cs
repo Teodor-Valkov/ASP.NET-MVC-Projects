@@ -20,6 +20,25 @@ namespace PaymentSystem.Domain.Managers
             this.userRepository = userRepository;
         }
 
+        public bool CreateUser(UserRegisterBindingModel userModel)
+        {
+            using (this.userRepository)
+            {
+                bool isUserWithSameUsernameExisting = this.userRepository.IsUserWithSameUsernameExisting(userModel.Username);
+                if (isUserWithSameUsernameExisting)
+                {
+                    return false;
+                }
+
+                string passwordSalt = PasswordUtilities.GeneratePasswordSalt();
+                string passwordHash = PasswordUtilities.GeneratePasswordHash(userModel.Password, passwordSalt);
+                UserCreateModel user = new UserCreateModel(userModel.Username, userModel.Name, passwordHash, passwordSalt);
+
+                bool createUserResult = this.userRepository.CreateUser(user);
+                return createUserResult;
+            }
+        }
+
         public UserModel GetUser(UserLoginBindingModel userModel)
         {
             using (this.userRepository)

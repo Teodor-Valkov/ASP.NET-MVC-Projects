@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using PaymentSystem.Common;
 using PaymentSystem.Domain.Interfaces;
@@ -11,12 +12,10 @@ namespace PaymentSystem.Domain.SqlServer
     {
         public ICollection<PaymentViewModel> GetAllPaymentsByUserId(int userId, string order)
         {
-            string getAllPaymentsByUserIdCommand = @"SELECT p.Id, a.IBAN, a.Amount, p.PaymentIBAN, p.PaymentAmount, p.PaymentReason, s.Status
+            string getAllPaymentsByUserIdCommand = @"SELECT p.Id, a.IBAN, p.PaymentIBAN, p.PaymentAmount, p.PaymentReason, p.PaymentDate, s.Status
                      FROM Payments AS p
                      JOIN Accounts AS a
                        ON p.AccountId = a.Id
-                     JOIN Users AS u
-                       ON p.UserId = u.Id
 					 JOIN Statuses AS s
 					   ON p.StatusId = s.Id
                     WHERE p.UserId = @userId
@@ -38,7 +37,7 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@userId", userId }
                       });
 
-            IDictionary<int, PaymentViewModel> payments = new Dictionary<int, PaymentViewModel>();
+            ICollection<PaymentViewModel> payments = new List<PaymentViewModel>();
 
             using (reader)
             {
@@ -46,18 +45,18 @@ namespace PaymentSystem.Domain.SqlServer
                 {
                     int id = reader.GetInt32(0);
                     string accountIban = reader.GetString(1);
-                    decimal accountAmount = reader.GetDecimal(2);
-                    string paymentIban = reader.GetString(3);
-                    decimal paymentAmount = reader.GetDecimal(4);
-                    string paymentReason = reader.GetString(5);
+                    string paymentIban = reader.GetString(2);
+                    decimal paymentAmount = reader.GetDecimal(3);
+                    string paymentReason = reader.GetString(4);
+                    DateTime paymenDate = reader.GetDateTime(5);
                     string status = reader.GetString(6);
-                    PaymentViewModel payment = new PaymentViewModel(id, accountIban, accountAmount, paymentIban, paymentAmount, paymentReason, status);
+                    PaymentViewModel payment = new PaymentViewModel(id, accountIban, paymentIban, paymentAmount, paymentReason, paymenDate, status);
 
-                    payments[id] = payment;
+                    payments.Add(payment);
                 }
             }
 
-            return payments.Values;
+            return payments;
         }
 
         public bool MakePayment(MakePaymentModel makePayment)
@@ -89,43 +88,38 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@paymentId", paymentId }
                       });
 
-            int? existingPaymentId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    existingPaymentId = reader.GetInt32(0);
+                    return true;
                 }
-            }
 
-            return existingPaymentId.HasValue;
+                return false;
+            }
         }
 
         public bool IsCurrentUserSameAsPaymentUser(int paymentId, int userId)
         {
             SqlDataReader reader = this.ExecuteReader(
-                 @"SELECT u.Id
-                     FROM Users AS u
-                     JOIN Payments AS p
-                       ON u.Id = p.UserId
-                    WHERE p.Id = @paymentId",
+                 @"SELECT UserId
+                     FROM Payments
+                    WHERE Id = @paymentId",
                       new Dictionary<string, object>
                       {
                           { "@paymentId", paymentId }
                       });
 
-            int? paymentUserId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    paymentUserId = reader.GetInt32(0);
+                    int paymentUserId = reader.GetInt32(0);
+                    return paymentUserId == userId;
                 }
-            }
 
-            return paymentUserId == userId;
+                return false;
+            }
         }
 
         public bool IsAccountAmountEnoughForProcessing(int paymentId)
@@ -141,32 +135,30 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@paymentId", paymentId }
                       });
 
-            decimal? accountAmount = null;
-            decimal? paymentAmount = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    accountAmount = reader.GetDecimal(0);
-                    paymentAmount = reader.GetDecimal(1);
+                    decimal accountAmount = reader.GetDecimal(0);
+                    decimal paymentAmount = reader.GetDecimal(1);
+                    return accountAmount >= paymentAmount;
                 }
-            }
 
-            return accountAmount.Value >= paymentAmount.Value;
+                return false;
+            }
         }
 
         public bool ProcessPayment(int paymentId)
         {
             int rowsUpdated = this.ExecuteNonQuery(
-                   @"UPDATE Payments
+                  @"UPDATE Payments
                         SET StatusId = 2
                       WHERE Id = @paymentId
                         AND StatusId = 1",
-                        new Dictionary<string, object>()
-                        {
+                       new Dictionary<string, object>()
+                       {
                             { "@paymentId", paymentId }
-                        });
+                       });
 
             if (rowsUpdated > 0)
             {
@@ -179,12 +171,12 @@ namespace PaymentSystem.Domain.SqlServer
                               { "@paymentId", paymentId }
                           });
 
-                int? accountId = null;
-                decimal? paymentAmount = null;
+                int accountId = 0;
+                decimal paymentAmount = 0;
 
                 using (reader)
                 {
-                    while (reader.Read())
+                    if (reader.Read())
                     {
                         accountId = reader.GetInt32(0);
                         paymentAmount = reader.GetDecimal(1);
@@ -193,12 +185,12 @@ namespace PaymentSystem.Domain.SqlServer
 
                 rowsUpdated = this.ExecuteNonQuery(
                    @"UPDATE Accounts
-                        SET Amount -= @paymentAmount
-                      WHERE Id = @accountId",
+                       SET Amount -= @paymentAmount
+                     WHERE Id = @accountId",
                         new Dictionary<string, object>()
                         {
-                            { "@paymentAmount", paymentAmount },
-                            { "@accountId", accountId }
+                           { "@paymentAmount", paymentAmount },
+                           { "@accountId", accountId }
                         });
             }
 

@@ -48,6 +48,7 @@ namespace PaymentSystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult MakePayment(MakePaymentBindingModel makePaymentModel)
         {
             int userId = this.User.GetUserId();
@@ -73,6 +74,8 @@ namespace PaymentSystem.Controllers
             return this.RedirectToAction(nameof(PaymentsController.Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ProcessPayment(int id)
         {
             int userId = this.User.GetUserId();
@@ -90,6 +93,8 @@ namespace PaymentSystem.Controllers
             return this.RedirectToAction(nameof(PaymentsController.Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CancelPayment(int id)
         {
             int userId = this.User.GetUserId();

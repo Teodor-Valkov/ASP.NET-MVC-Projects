@@ -25,6 +25,34 @@ namespace PaymentSystem.Controllers
 
         [HttpGet]
         [RedirectLoggedInUser]
+        public ActionResult Register()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RedirectLoggedInUser]
+        public ActionResult Register(UserRegisterBindingModel userModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(userModel);
+            }
+
+            bool registerResult = this.userManager.CreateUser(userModel);
+            if (!registerResult)
+            {
+                this.TempData.AddErrorMessage(MessageConstants.ExistingUsernameError);
+                return this.View(userModel);
+            }
+
+            this.TempData.AddSuccessMessage(MessageConstants.RegistrationSuccessful);
+            return RedirectToAction(nameof(UsersController.Login), WebConstants.UsersController);
+        }
+
+        [HttpGet]
+        [RedirectLoggedInUser]
         public ActionResult Login()
         {
             return this.View();

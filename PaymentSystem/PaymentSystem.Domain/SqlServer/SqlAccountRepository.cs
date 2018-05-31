@@ -10,8 +10,7 @@ namespace PaymentSystem.Domain.SqlServer
         public ICollection<AccountViewModel> GetAllAccountsByUserId(int userId)
         {
             SqlDataReader reader = this.ExecuteReader(
-                 @"SELECT au.AccountId,
-                          a.IBAN,
+                 @"SELECT a.IBAN,
 	                      a.Amount
                      FROM Accounts AS a
                      JOIN AccountUsers AS au
@@ -22,22 +21,21 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@userId", userId }
                       });
 
-            IDictionary<int, AccountViewModel> accounts = new Dictionary<int, AccountViewModel>();
+            ICollection<AccountViewModel> accounts = new List<AccountViewModel>();
 
             using (reader)
             {
                 while (reader.Read())
                 {
-                    int id = reader.GetInt32(0);
-                    string iban = reader.GetString(1);
-                    decimal amount = reader.GetDecimal(2);
-                    AccountViewModel account = new AccountViewModel(id, iban, amount);
+                    string iban = reader.GetString(0);
+                    decimal amount = reader.GetDecimal(1);
+                    AccountViewModel account = new AccountViewModel(iban, amount);
 
-                    accounts[id] = account;
+                    accounts.Add(account);
                 }
             }
 
-            return accounts.Values;
+            return accounts;
         }
 
         public ICollection<AccountDescriptionViewModel> GetAllAccountsForPaymentByUserId(int userId)
@@ -55,7 +53,7 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@userId", userId }
                       });
 
-            IDictionary<int, AccountDescriptionViewModel> accounts = new Dictionary<int, AccountDescriptionViewModel>();
+            ICollection<AccountDescriptionViewModel> accounts = new List<AccountDescriptionViewModel>();
 
             using (reader)
             {
@@ -67,11 +65,11 @@ namespace PaymentSystem.Domain.SqlServer
                     string name = string.Format("{0} ({1})", iban, amount);
                     AccountDescriptionViewModel account = new AccountDescriptionViewModel(id, name);
 
-                    accounts[id] = account;
+                    accounts.Add(account);
                 }
             }
 
-            return accounts.Values;
+            return accounts;
         }
 
         public bool IsAccountExisting(int accountId)
@@ -85,17 +83,15 @@ namespace PaymentSystem.Domain.SqlServer
                           { "@accountId", accountId }
                       });
 
-            int? existingAccountId = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    existingAccountId = reader.GetInt32(0);
+                    return true;
                 }
-            }
 
-            return existingAccountId.HasValue;
+                return false;
+            }
         }
     }
 }

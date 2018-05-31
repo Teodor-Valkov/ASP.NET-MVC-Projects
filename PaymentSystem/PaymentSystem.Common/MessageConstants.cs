@@ -13,11 +13,14 @@
         public const string InvalidCredentials = "Invalid Credentials.";
         public const string LoginSuccessful = "Login successful.";
         public const string LogoutSuccessful = "Logout successful.";
+        public const string RegistrationSuccessful = "Registration successful.";
+        public const string ExistingUsernameError = "There is already a user with this username.";
+        public const string PasswordsDoNotMatchError = "The Password and Confirm Password do not match.";
 
         public const string AccountNotFoundError = "The specified account was not found.";
         public const string PaymentNotFoundError = "The specified payment was not found.";
         public const string AccountNotEnoughAmountError = "The amount in your account is not enough for this payment.";
-        
+
         public const string MakePaymentError = "You cannot make the specified payment.";
         public const string MakePaymentSuccess = "You have successfully made new payment.";
 

@@ -1,16 +1,37 @@
 ﻿@model PaymentViewModel
 <tr>
     <td>@Model.AccountIBAN</td>
-    <td>@Model.AccountAmount</td>
     <td>@Model.PaymentIBAN</td>
     <td>@Model.PaymentAmount</td>
     <td>@Model.PaymentReason</td>
+    <td>@Model.PaymentDate.ToShortDateString()</td>
     <td>@Model.Status</td>
     <td>
         @if (Model.Status == DataConstants.PaymentWaiting)
         {
-            @Html.ActionLink("Потвърди", "ProcessPayment", "Payments", new { id = Model.Id }, new { @class = "btn btn-outline-success" })
-            @Html.ActionLink("Откажи", "CancelPayment", "Payments", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })
+            using (Html.BeginForm("ProcessPayment", "Payments", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken();
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-2">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="submit" class="btn btn-outline-success" value="Потвърди" />
+                    </div>
+                </div>
+            }
+
+            using (Html.BeginForm("CancelPayment", "Payments", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken();
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-2">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="submit" class="btn btn-outline-danger" value="Откажи" />
+                    </div>
+                </div>
+            }
         }
     </td>
 </tr>
