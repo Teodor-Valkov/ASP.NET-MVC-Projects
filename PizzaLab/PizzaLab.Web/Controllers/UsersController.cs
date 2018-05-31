@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using PizzaLab.Models.BindingModels;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 using PizzaLab.Server.Filters;
 using PizzaLab.Services.Interfaces;
 using PizzaLab.Services.Managers;

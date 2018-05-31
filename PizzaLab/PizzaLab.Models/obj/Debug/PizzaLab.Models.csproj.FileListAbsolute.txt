@@ -1,9 +1,0 @@
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\bin\Debug\PizzaLab.Models.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\bin\Debug\PizzaLab.Models.pdb
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\bin\Debug\PizzaLab.Common.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\bin\Debug\PizzaLab.Common.pdb
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\obj\Debug\PizzaLab.Models.csprojAssemblyReference.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\obj\Debug\PizzaLab.Models.csproj.CoreCompileInputs.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\obj\Debug\PizzaLab.Models.csproj.CopyComplete
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\obj\Debug\PizzaLab.Models.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Models\obj\Debug\PizzaLab.Models.pdb

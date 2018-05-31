@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 using PizzaLab.Services.Interfaces;
 
 namespace PizzaLab.Services.Repositories
@@ -47,12 +47,13 @@ namespace PizzaLab.Services.Repositories
             return recordsInserted > 0;
         }
 
-        public UserModel GetUserByUsername(string username)
+        public UserWithPasswordModel GetUserByUsername(string username)
         {
-            UserModel user = null;
-
             SqlDataReader reader = this.ExecuteReader(
-                 @"SELECT Id, Username, PasswordHash, PasswordSalt
+                 @"SELECT Id,
+                          Username,
+                          PasswordHash,
+                          PasswordSalt
                      FROM Users
                     WHERE Username = @username",
                  new Dictionary<string, object>
@@ -62,18 +63,19 @@ namespace PizzaLab.Services.Repositories
 
             using (reader)
             {
-                for (int usersCount = 0; reader.Read() && usersCount <= 1; usersCount++)
+                if (reader.Read())
                 {
                     int id = reader.GetInt32(0);
-                    string usernameFromDatabase = reader.GetString(1);
+                    string userUsername = reader.GetString(1);
                     string passwordHash = reader.GetString(2);
                     string passwordSalt = reader.GetString(3);
 
-                    user = new UserModel(id, usernameFromDatabase, passwordHash, passwordSalt);
+                    UserWithPasswordModel userWithPassword = new UserWithPasswordModel(id, userUsername, passwordHash, passwordSalt);
+                    return userWithPassword;
                 }
-            }
 
-            return user;
+                return null;
+            }
         }
     }
 }

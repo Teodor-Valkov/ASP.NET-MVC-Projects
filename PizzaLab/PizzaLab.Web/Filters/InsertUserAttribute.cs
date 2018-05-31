@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Mvc.Filters;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 using static PizzaLab.Web.WebConstants;
 
 namespace PizzaLab.Web.Filters
@@ -10,7 +10,6 @@ namespace PizzaLab.Web.Filters
         public void OnAuthentication(AuthenticationContext filterContext)
         {
             UserModel user = filterContext.HttpContext.Session[UserSessionKey] as UserModel;
-
             if (user != null)
             {
                 filterContext.Principal = user;

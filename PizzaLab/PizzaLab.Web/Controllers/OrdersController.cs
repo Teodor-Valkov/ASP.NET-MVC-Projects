@@ -2,7 +2,7 @@
 using PizzaLab.Models;
 using PizzaLab.Models.BindingModels;
 using PizzaLab.Models.ViewModels;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 using PizzaLab.Models.ViewModels.Pizzas;
 using PizzaLab.Server.Controllers;
 using PizzaLab.Server.Filters;
@@ -30,7 +30,6 @@ namespace PizzaLab.Web.Controllers
             this.pizzaManager = pizzaManager;
         }
 
-        [HttpGet]
         public ActionResult OrderPizza(int id)
         {
             PizzaOrderViewModel pizza = this.pizzaManager.GetPizzaToOrder(id);

@@ -1,6 +1,0 @@
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\bin\Debug\PizzaLab.Common.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\bin\Debug\PizzaLab.Common.pdb
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\obj\Debug\PizzaLab.Common.csprojAssemblyReference.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\obj\Debug\PizzaLab.Common.csproj.CoreCompileInputs.cache
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\obj\Debug\PizzaLab.Common.dll
-C:\Users\valko\Documents\Visual Studio 2017\Projects\DAISInternship\PizzaLab\PizzaLab.Common\obj\Debug\PizzaLab.Common.pdb

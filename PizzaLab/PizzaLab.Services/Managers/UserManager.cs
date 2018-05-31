@@ -1,7 +1,6 @@
-﻿using System;
-using PizzaLab.Common;
+﻿using PizzaLab.Common;
 using PizzaLab.Models.BindingModels;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 using PizzaLab.Services.Interfaces;
 using PizzaLab.Services.Repositories;
 
@@ -44,20 +43,21 @@ namespace PizzaLab.Services.Managers
         {
             using (this.userRepository)
             {
-                UserModel user = this.userRepository.GetUserByUsername(userModel.Username);
+                UserWithPasswordModel userWithPassword = this.userRepository.GetUserByUsername(userModel.Username);
 
-                if (user == null)
+                if (userWithPassword == null)
                 {
                     return null;
                 }
 
-                string actualPasswordHash = PasswordUtilities.GeneratePasswordHash(userModel.Password, user.PasswordSalt);
+                string actualPasswordHash = PasswordUtilities.GeneratePasswordHash(userModel.Password, userWithPassword.PasswordSalt);
 
-                if (actualPasswordHash != user.PasswordHash)
+                if (actualPasswordHash != userWithPassword.PasswordHash)
                 {
                     return null;
                 }
 
+                UserModel user = new UserModel(userWithPassword.Id, userWithPassword.Username);
                 return user;
             }
         }

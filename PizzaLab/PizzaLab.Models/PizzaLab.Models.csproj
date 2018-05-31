@@ -48,9 +48,10 @@
     <Compile Include="BindingModels\LoginUserBindingModel.cs" />
     <Compile Include="BindingModels\PizzaOrderBindingModel.cs" />
     <Compile Include="BindingModels\RegisterUserBindingModel.cs" />
-    <Compile Include="ViewModels\Users\CreateUserModel.cs" />
-    <Compile Include="ViewModels\Users\UserModel.cs" />
+    <Compile Include="Models\Users\CreateUserModel.cs" />
+    <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="IdentifiedObject.cs" />
+    <Compile Include="Models\Users\UserWithPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCart.cs" />
     <Compile Include="ViewModels\Ingredients\DoughTypeDescription.cs" />

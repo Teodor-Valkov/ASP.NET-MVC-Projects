@@ -31,8 +31,8 @@ namespace PizzaLab.Services.SqlServer
                          i.Id AS IngredientId,
                          i.Name AS IngredientName
                     FROM Pizzas AS p
-                    JOIN Pizzas_Ingredients AS [pi]
-                      ON [pi].PizzaId = p.Id
+                    JOIN Pizzas_Ingredients AS pi
+                      ON pi.PizzaId = p.Id
                     JOIN Ingredients AS i
                       ON pi.IngredientId = i.Id");
 
@@ -124,11 +124,9 @@ namespace PizzaLab.Services.SqlServer
                        ON sales.Id = p.Id
                     ORDER BY sales.Count DESC");
 
-            MostWantedPizzaViewModel pizza = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
                     int pizzaId = reader.GetInt32(0);
                     string pizzaName = reader.GetString(1);
@@ -136,11 +134,12 @@ namespace PizzaLab.Services.SqlServer
                     string picturePath = reader.GetString(3);
                     int salesCount = reader.GetInt32(4);
 
-                    pizza = new MostWantedPizzaViewModel(pizzaId, pizzaName, description, picturePath, salesCount);
+                    MostWantedPizzaViewModel pizza = new MostWantedPizzaViewModel(pizzaId, pizzaName, description, picturePath, salesCount);
+                    return pizza;
                 }
-            }
 
-            return pizza;
+                return null;
+            }
         }
 
         public PizzaModel GetPizzaInfoById(int pizzaId)
@@ -157,25 +156,21 @@ namespace PizzaLab.Services.SqlServer
                           { "@pizzaId", pizzaId }
                       });
 
-            PizzaModel pizza = null;
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
                     int id = reader.GetInt32(0);
                     string name = reader.GetString(1);
                     string description = reader.GetString(2);
                     string picturePath = reader.GetString(3);
 
-                    if (pizza == null)
-                    {
-                        pizza = new PizzaModel(id, name, description, picturePath);
-                    }
+                    PizzaModel pizza = new PizzaModel(id, name, description, picturePath);
+                    return pizza;
                 }
-            }
 
-            return pizza;
+                return null;
+            }
         }
 
         public ICollection<DoughTypeDescription> GetAllDoughTypes()
@@ -184,7 +179,7 @@ namespace PizzaLab.Services.SqlServer
                  @"SELECT Id, Name
                      FROM DoughTypes");
 
-            IDictionary<int, DoughTypeDescription> doughTypes = new Dictionary<int, DoughTypeDescription>();
+            ICollection<DoughTypeDescription> doughTypes = new List<DoughTypeDescription>();
 
             using (reader)
             {
@@ -192,12 +187,13 @@ namespace PizzaLab.Services.SqlServer
                 {
                     int doughTypeId = reader.GetInt32(0);
                     string doughTypeName = reader.GetString(1);
+                    DoughTypeDescription doughType = new DoughTypeDescription(doughTypeId, doughTypeName);
 
-                    doughTypes[doughTypeId] = new DoughTypeDescription(doughTypeId, doughTypeName);
+                    doughTypes.Add(doughType);
                 }
             }
 
-            return doughTypes.Values;
+            return doughTypes;
         }
 
         public ICollection<SizeDescription> GetAllSizes()
@@ -206,7 +202,7 @@ namespace PizzaLab.Services.SqlServer
                  @"SELECT Id, Name
                      FROM Sizes");
 
-            IDictionary<int, SizeDescription> sizes = new Dictionary<int, SizeDescription>();
+            ICollection<SizeDescription> sizes = new List<SizeDescription>();
 
             using (reader)
             {
@@ -214,12 +210,13 @@ namespace PizzaLab.Services.SqlServer
                 {
                     int sizeId = reader.GetInt32(0);
                     string sizeName = reader.GetString(1);
+                    SizeDescription size = new SizeDescription(sizeId, sizeName);
 
-                    sizes[sizeId] = new SizeDescription(sizeId, sizeName);
+                    sizes.Add(size);
                 }
             }
 
-            return sizes.Values;
+            return sizes;
         }
 
         public ICollection<IngredientDescription> GetAllIngredients()
@@ -228,7 +225,7 @@ namespace PizzaLab.Services.SqlServer
                  @"SELECT Id, Name
                      FROM Ingredients");
 
-            IDictionary<int, IngredientDescription> ingredients = new Dictionary<int, IngredientDescription>();
+            ICollection<IngredientDescription> ingredients = new List<IngredientDescription>();
 
             using (reader)
             {
@@ -236,12 +233,13 @@ namespace PizzaLab.Services.SqlServer
                 {
                     int ingredientId = reader.GetInt32(0);
                     string ingredientName = reader.GetString(1);
+                    IngredientDescription ingredient = new IngredientDescription(ingredientId, ingredientName);
 
-                    ingredients[ingredientId] = new IngredientDescription(ingredientId, ingredientName);
+                    ingredients.Add(ingredient);
                 }
             }
 
-            return ingredients.Values;
+            return ingredients;
         }
 
         public ICollection<IngredientDescription> GetAllPizzaIngredients(int pizzaId)
@@ -259,7 +257,7 @@ namespace PizzaLab.Services.SqlServer
                           { "@pizzaId", pizzaId }
                       });
 
-            IDictionary<int, IngredientDescription> pizzaIngredients = new Dictionary<int, IngredientDescription>();
+            ICollection<IngredientDescription> pizzaIngredients = new List<IngredientDescription>();
 
             using (reader)
             {
@@ -267,12 +265,13 @@ namespace PizzaLab.Services.SqlServer
                 {
                     int ingredientId = reader.GetInt32(0);
                     string ingredientName = reader.GetString(1);
+                    IngredientDescription pizzaIngredient = new IngredientDescription(ingredientId, ingredientName);
 
-                    pizzaIngredients[ingredientId] = new IngredientDescription(ingredientId, ingredientName);
+                    pizzaIngredients.Add(pizzaIngredient);
                 }
             }
 
-            return pizzaIngredients.Values;
+            return pizzaIngredients;
         }
 
         public decimal GetDoughTypePrice(int doughTypeId)
@@ -286,17 +285,16 @@ namespace PizzaLab.Services.SqlServer
                           { "@doughTypeId", doughTypeId }
                       });
 
-            decimal doughTypePrice = default(decimal);
-
             using (reader)
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    doughTypePrice = reader.GetDecimal(0);
+                    decimal doughTypePrice = reader.GetDecimal(0);
+                    return doughTypePrice;
                 }
-            }
 
-            return doughTypePrice;
+                return 0;
+            }
         }
 
         public decimal GetSizePrice(int sizeId)
@@ -310,17 +308,16 @@ namespace PizzaLab.Services.SqlServer
                           { "@sizeId", sizeId }
                       });
 
-            decimal sizePrice = default(decimal);
-
             using (reader)
             {
                 while (reader.Read())
                 {
-                    sizePrice = reader.GetDecimal(0);
+                    decimal sizePrice = reader.GetDecimal(0);
+                    return sizePrice;
                 }
-            }
 
-            return sizePrice;
+                return 0;
+            }
         }
 
         public decimal GetIngredientsPrice(ICollection<int> ingredientIds)

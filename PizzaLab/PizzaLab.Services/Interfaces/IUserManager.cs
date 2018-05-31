@@ -1,5 +1,5 @@
 ﻿using PizzaLab.Models.BindingModels;
-using PizzaLab.Models.ViewModels.Users;
+using PizzaLab.Models.Models.Users;
 
 namespace PizzaLab.Services.Interfaces
 {

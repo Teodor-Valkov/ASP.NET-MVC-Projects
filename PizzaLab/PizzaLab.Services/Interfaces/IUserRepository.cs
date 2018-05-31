@@ -1,4 +1,4 @@
-﻿using PizzaLab.Models.ViewModels.Users;
+﻿using PizzaLab.Models.Models.Users;
 
 namespace PizzaLab.Services.Interfaces
 {
@@ -8,6 +8,6 @@ namespace PizzaLab.Services.Interfaces
 
         bool CreateUser(CreateUserModel user);
 
-        UserModel GetUserByUsername(string username);
+        UserWithPasswordModel GetUserByUsername(string username);
     }
 }
